@@ -75,14 +75,14 @@ export async function getUserByUserId(userId: string): Promise<responceUserData[
 // おすすめのユーザー用
 export async function getDocumentByArrays(
   arr: string[],
-  getQuery: firebaseApp.firestore.Query<firebaseApp.firestore.DocumentData>
+  getQuery: (batch: string[]) => firebaseApp.firestore.Query<firebaseApp.firestore.DocumentData>
 ): Promise<responceUserData[]> {
   // eslint-disable-next-line consistent-return
   return new Promise((resolve) => {
     if (!arr) return resolve([]);
 
     const spliceArr = [...arr];
-    const batches: responceUserData[][] = [];
+    const batches = [];
 
     while (spliceArr.length) {
       const batch = spliceArr.splice(0, 10);
@@ -124,27 +124,27 @@ export async function getDocumentByArrays(
 // whereでINを使用しているドキュメントの取得
 export async function getDocumentByArraysIn(
   arr: string[],
-  getQuery: firebaseApp.firestore.Query<firebaseApp.firestore.DocumentData>
+  getQuery: (batch: string[]) => firebaseApp.firestore.Query<firebaseApp.firestore.DocumentData>
 ): Promise<responceBothData[]> {
   // eslint-disable-next-line consistent-return
   return new Promise((resolve) => {
     if (!arr) return resolve([]);
 
     const spliceArr = [...arr];
-    const batches: responceUserData[][] = [];
+    const batches = [];
 
     while (spliceArr.length) {
       const batch = spliceArr.splice(0, 10);
 
       batches.push(
         // eslint-disable-next-line no-shadow
-        new Promise((resolve) => {
+        new Promise<responceBothData[]>((resolve) => {
           // eslint-disable-next-line no-void
           void getQuery(batch)
             .get()
             .then((results) => {
               const profiles = results.docs.map((result) => ({
-                ...result.data(),
+                ...(result.data() as responceBothData),
                 docId: result.id,
               }));
               resolve(profiles);
@@ -275,7 +275,7 @@ export async function getPhotos(userId: string, following: string[]): Promise<re
 
 // ログインしているユーザーがお気に入りしているポストを取得
 export async function getPhotosFavorite(userId: string, likes: string[]): Promise<Promise<responceUserDataWithUserInfo[]>> {
-  let likesPhotos: responcePhotoData[];
+  let likesPhotos: responcePhotoData[] = [];
 
   await Promise.all(likes.map((docId) => firebase.firestore().collection('photos').doc(docId).get())).then((docs) => {
     likesPhotos = docs
@@ -418,7 +418,7 @@ export async function getProfileFollowedgUsers(followed: string[]): Promise<resp
 
   if (followed.length > 0) {
     const collectionPath = firebase.firestore().collection('users');
-    const getQuery = (batch) => collectionPath.where('userId', 'in', batch);
+    const getQuery = (batch: string[]) => collectionPath.where('userId', 'in', batch);
     users = await getDocumentByArraysIn(followed, getQuery);
   }
 
