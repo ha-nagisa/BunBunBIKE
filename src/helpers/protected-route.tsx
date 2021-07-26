@@ -1,34 +1,41 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import { selectUser } from '../store/slices/userSlice';
+import * as ROUTES from '../constants/routes';
 
 interface PROPS {
-  user: object;
-  loggedInPath: string;
-  children: ReactNode;
+  children: React.ReactElement;
+  path: string;
+  exact: boolean;
 }
 
-const IsUserLoggedIn: React.FC<PROPS> = ({ user, loggedInPath, children, ...rest }) => (
-  <Route
-    {...rest}
-    render={({ location }) => {
-      if (!user) {
-        return React.cloneElement(children, { user });
-      }
+const IsUserLoggedIn: React.FC<PROPS> = ({ children, path, exact }) => {
+  const user = useSelector(selectUser);
+  return (
+    <Route
+      path={path}
+      exact={exact}
+      render={({ location }) => {
+        if (user) {
+          return React.cloneElement(children, { user });
+        }
 
-      if (user) {
-        return (
-          <Redirect
-            to={{
-              pathname: loggedInPath,
-              state: { from: location },
-            }}
-          />
-        );
-      }
+        if (!user) {
+          return (
+            <Redirect
+              to={{
+                pathname: ROUTES.LOGIN,
+                state: { from: location },
+              }}
+            />
+          );
+        }
 
-      return null;
-    }}
-  />
-);
+        return null;
+      }}
+    />
+  );
+};
 
 export default IsUserLoggedIn;

@@ -1,48 +1,6 @@
 import firebaseApp from 'firebase';
 import { firebase, FieldValue } from '../libs/firebase';
-
-interface responceUserData {
-  bikeImageUrl: string;
-  carModel: string;
-  dateCreated: number;
-  emailAddress: string;
-  followers: string[];
-  following: string[];
-  likes: string[];
-  maker: string;
-  userId: string;
-  username: string;
-  docId?: string;
-}
-
-interface responcePhotoData {
-  Maker: string;
-  carModel: string;
-  category: string;
-  comments: string[];
-  dateCreated: number;
-  description: string;
-  imageSrc: string;
-  likes: string[];
-  title: string;
-  userId: string;
-  workHours: string;
-  workMoney: string;
-  docId?: string;
-}
-
-interface responsePhotoUserInfo {
-  userLikedPhoto: boolean;
-  username: string;
-}
-
-interface lastDocType {
-  lastdoc: firebaseApp.firestore.QueryDocumentSnapshot<firebaseApp.firestore.DocumentData> | undefined;
-}
-
-type responceUserDataWithUserInfo = responcePhotoData | responsePhotoUserInfo;
-type responceUserDataWithUserInfoLastDoc = responceUserDataWithUserInfo | lastDocType;
-type responceBothData = responceUserData | responcePhotoData;
+import { responceUserData, responcePhotoData, responcePhotoDataWithUserInfo, responcePhotoDataWithUserInfoLastDoc } from '../models/responceData';
 
 // ユーザーネームを持ったユーザーが存在するかをチェック
 export async function doesUsernameExist(username: string): Promise<boolean> {
@@ -122,10 +80,10 @@ export async function getDocumentByArrays(
 
 // firestoreからwhereを使用して、比較する配列が10個以上の場合にドキュメントを取得する関数
 // whereでINを使用しているドキュメントの取得
-export async function getDocumentByArraysIn(
+export async function getDocumentByArraysIn<T>(
   arr: string[],
   getQuery: (batch: string[]) => firebaseApp.firestore.Query<firebaseApp.firestore.DocumentData>
-): Promise<responceBothData[]> {
+): Promise<T[]> {
   // eslint-disable-next-line consistent-return
   return new Promise((resolve) => {
     if (!arr) return resolve([]);
@@ -138,13 +96,13 @@ export async function getDocumentByArraysIn(
 
       batches.push(
         // eslint-disable-next-line no-shadow
-        new Promise<responceBothData[]>((resolve) => {
+        new Promise<T[]>((resolve) => {
           // eslint-disable-next-line no-void
           void getQuery(batch)
             .get()
             .then((results) => {
               const profiles = results.docs.map((result) => ({
-                ...(result.data() as responceBothData),
+                ...(result.data() as T),
                 docId: result.id,
               }));
               resolve(profiles);
@@ -154,7 +112,9 @@ export async function getDocumentByArraysIn(
     }
 
     // eslint-disable-next-line no-void
-    void Promise.all(batches).then((content) => resolve(content.flat()));
+    void Promise.all(batches).then((content) => {
+      resolve(content.flat());
+    });
   });
 }
 
@@ -248,11 +208,11 @@ export async function updateFollowedUserFollowers(profileDocId: string, loggedIn
 }
 
 // ログインしているユーザーがフォローしている人のポストを取得
-export async function getPhotos(userId: string, following: string[]): Promise<responceUserDataWithUserInfo[]> {
+export async function getPhotos(userId: string, following: string[]): Promise<responcePhotoDataWithUserInfo[] | null> {
   if (following && following.length > 0) {
     const collectionPath = firebase.firestore().collection('photos');
     const getQuery = (batch: string[]) => collectionPath.where('userId', 'in', batch);
-    const userFollowedPhotos = await getDocumentByArraysIn(following, getQuery);
+    const userFollowedPhotos = await getDocumentByArraysIn<responcePhotoData>(following, getQuery);
 
     const photosWithUserDetails = await Promise.all(
       userFollowedPhotos.map(async (photo) => {
@@ -260,10 +220,8 @@ export async function getPhotos(userId: string, following: string[]): Promise<re
         if (photo.likes.includes(userId)) {
           userLikedPhoto = true;
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const user = await getUserByUserId(photo.userId);
         const { username } = user[0];
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return { username, ...photo, userLikedPhoto };
       })
     );
@@ -274,7 +232,7 @@ export async function getPhotos(userId: string, following: string[]): Promise<re
 }
 
 // ログインしているユーザーがお気に入りしているポストを取得
-export async function getPhotosFavorite(userId: string, likes: string[]): Promise<Promise<responceUserDataWithUserInfo[]>> {
+export async function getPhotosFavorite(userId: string, likes: string[]): Promise<responcePhotoDataWithUserInfo[]> {
   let likesPhotos: responcePhotoData[] = [];
 
   await Promise.all(likes.map((docId) => firebase.firestore().collection('photos').doc(docId).get())).then((docs) => {
@@ -304,7 +262,7 @@ export async function getPhotosFavorite(userId: string, likes: string[]): Promis
 }
 
 // すべてのポストを取得
-export async function getPhotosAll(userId: string, latestDoc: string): Promise<responceUserDataWithUserInfoLastDoc[]> {
+export async function getPhotosAll(userId: string, latestDoc: string): Promise<responcePhotoDataWithUserInfoLastDoc> {
   let result;
 
   if (latestDoc) {
@@ -340,11 +298,11 @@ export async function getPhotosAll(userId: string, latestDoc: string): Promise<r
     })
   );
 
-  return { ...photosWithUserDetails, ...lastDoc };
+  return { photosWithUserDetails, lastDoc };
 }
 
 // ユーザーIDによってポストを取得
-export async function getUserPhotosByUserId(userId: string): Promise<responceUserDataWithUserInfoLastDoc[] | null> {
+export async function getUserPhotosByUserId(userId: string): Promise<responcePhotoDataWithUserInfo[]> {
   if (userId) {
     const result = await firebase.firestore().collection('photos').where('userId', '==', userId).get();
 
@@ -369,7 +327,7 @@ export async function getUserPhotosByUserId(userId: string): Promise<responceUse
 
     return photosWithUserDetails;
   }
-  return null;
+  return [];
 }
 
 // ユーザーをフォローしているかをチェック
@@ -402,24 +360,24 @@ export async function toggleFollow(
 }
 
 // フォローしている人のuserドキュメントを取得
-export async function getProfileFollowingUsers(following: string[]): Promise<responceBothData[]> {
-  let users: responceBothData[] = [];
+export async function getProfileFollowingUsers(following: string[]): Promise<responceUserData[]> {
+  let users: responceUserData[] = [];
   if (following.length > 0) {
     const collectionPath = firebase.firestore().collection('users');
     const getQuery = (batch: string[]) => collectionPath.where('userId', 'in', batch);
-    users = await getDocumentByArraysIn(following, getQuery);
+    users = await getDocumentByArraysIn<responceUserData>(following, getQuery);
   }
 
   return users;
 }
 // フォローされている人のuserドキュメントを取得
-export async function getProfileFollowedgUsers(followed: string[]): Promise<responceBothData[]> {
-  let users: responceBothData[] = [];
+export async function getProfileFollowedgUsers(followed: string[]): Promise<responceUserData[]> {
+  let users: responceUserData[] = [];
 
   if (followed.length > 0) {
     const collectionPath = firebase.firestore().collection('users');
     const getQuery = (batch: string[]) => collectionPath.where('userId', 'in', batch);
-    users = await getDocumentByArraysIn(followed, getQuery);
+    users = await getDocumentByArraysIn<responceUserData>(followed, getQuery);
   }
 
   return users;
