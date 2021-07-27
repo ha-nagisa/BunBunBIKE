@@ -24,7 +24,7 @@ const Header: React.FC = () => {
             </h1>
           </div>
           <div className="text-gray-700 text-center flex items-center align-items">
-            {loggedInUser.uid ? (
+            {loggedInUser ? (
               <>
                 <button
                   type="button"

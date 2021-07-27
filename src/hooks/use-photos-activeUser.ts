@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setLoggedInUserPhotos } from '../store/slices/loggedInUserPhotosSlice';
+import { logoutLoggedInUserPhotos, setLoggedInUserPhotos } from '../store/slices/loggedInUserPhotosSlice';
 import { getUserPhotosByUserId } from '../utils/firebase';
 
 const useActiveUserPhotos = (userId: string): void => {
@@ -17,6 +17,8 @@ const useActiveUserPhotos = (userId: string): void => {
     if (userId) {
       // eslint-disable-next-line no-void
       void getUserPhotosAll();
+    } else {
+      dispatch(logoutLoggedInUserPhotos());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);

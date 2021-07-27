@@ -14,6 +14,7 @@ const useAuthListener = (): void => {
         dispatch(login(authUser));
       } else {
         localStorage.removeItem('authUser');
+        console.log('removeItem');
         dispatch(logout());
       }
     });
