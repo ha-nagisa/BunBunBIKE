@@ -4,15 +4,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: { uid: '', displayName: '' } as firebaseApp.User,
+    user: {} as firebaseApp.User | Record<string, never>,
   },
   reducers: {
     login: (state, action: PayloadAction<firebaseApp.User>) => {
       state.user = action.payload;
     },
     logout: (state) => {
-      state.user.uid = '';
-      state.user.displayName = '';
+      state.user = {};
     },
   },
 });

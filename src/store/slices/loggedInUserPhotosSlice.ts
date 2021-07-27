@@ -28,6 +28,27 @@ export const loggedInUserPhotosSlice = createSlice({
     setLoggedInUserPhotos: (state, action: PayloadAction<responcePhotoDataWithUserInfo[]>) => {
       state.loggedInUserPhotos = action.payload;
     },
+    logoutLoggedInUserPhotos: (state) => {
+      state.loggedInUserPhotos = [
+        {
+          maker: '',
+          carModel: '',
+          category: '',
+          comments: [''],
+          dateCreated: 0,
+          description: '',
+          imageSrc: '',
+          likes: [''],
+          title: '',
+          userId: '',
+          workHours: '',
+          workMoney: '',
+          docId: '',
+          userLikedPhoto: false,
+          username: '',
+        },
+      ];
+    },
     addLoggedInUserPhoto: (state, action: PayloadAction<responcePhotoDataWithUserInfo>) => {
       state.loggedInUserPhotos = [...state.loggedInUserPhotos, action.payload];
     },
@@ -40,7 +61,7 @@ type RootState = {
   };
 };
 
-export const { setLoggedInUserPhotos, addLoggedInUserPhoto } = loggedInUserPhotosSlice.actions;
+export const { setLoggedInUserPhotos, logoutLoggedInUserPhotos, addLoggedInUserPhoto } = loggedInUserPhotosSlice.actions;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const selectUser = (state: RootState) => state.loggedInUserPhotos.loggedInUserPhotos;
 export default loggedInUserPhotosSlice.reducer;

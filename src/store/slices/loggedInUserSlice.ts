@@ -22,6 +22,21 @@ export const loggedInUserSlice = createSlice({
     setActiveUser: (state, action: PayloadAction<responceUserData>) => {
       state.activeUser = action.payload;
     },
+    logoutActiveUser: (state) => {
+      state.activeUser = {
+        bikeImageUrl: '',
+        carModel: '',
+        dateCreated: 0,
+        emailAddress: '',
+        followers: [''],
+        following: [''],
+        likes: [''],
+        maker: '',
+        userId: '',
+        username: '',
+        docId: undefined,
+      };
+    },
     updateLikes: (state) => {
       // eslint-disable-next-line no-console
       console.log('updateLikes');
@@ -47,7 +62,7 @@ type RootState = {
   };
 };
 
-export const { setActiveUser, updateLikes, updateFollowing, updateProfileWithImage, updateProfile } = loggedInUserSlice.actions;
+export const { setActiveUser, logoutActiveUser, updateLikes, updateFollowing, updateProfileWithImage, updateProfile } = loggedInUserSlice.actions;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const selectLoggedInUser = (state: RootState) => state.activeUser.activeUser;
 export default loggedInUserSlice.reducer;
