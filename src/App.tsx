@@ -1,8 +1,8 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import * as ROUTES from './constants/routes';
 
 import ProtectedRoute from './helpers/protected-route';

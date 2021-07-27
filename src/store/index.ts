@@ -4,6 +4,7 @@ import loggedInUserReducer from './slices/loggedInUserSlice';
 import loggedInUserPhotoReducer from './slices/loggedInUserPhotosSlice';
 import photoDetailModalReducer from './slices/photoDetaiModallSlice';
 import ccountDeleteToastReducer from './slices/accountDeleteToastSlice';
+import suggestionProfilesReducer from './slices/suggestionProfilesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     loggedInUserPhotos: loggedInUserPhotoReducer,
     photoDetail: photoDetailModalReducer,
     accountDeleteToast: ccountDeleteToastReducer,
+    suggestionProfiles: suggestionProfilesReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

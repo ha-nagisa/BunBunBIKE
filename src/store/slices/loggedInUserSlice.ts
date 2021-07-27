@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { responceUserData } from '../../models/responceData';
 
 export const loggedInUserSlice = createSlice({
-  name: 'activeuser',
+  name: 'activeUser',
   initialState: {
     activeUser: {
       bikeImageUrl: '',
@@ -42,12 +42,12 @@ export const loggedInUserSlice = createSlice({
 });
 
 type RootState = {
-  activeuser: {
+  activeUser: {
     activeUser: responceUserData;
   };
 };
 
 export const { setActiveUser, updateLikes, updateFollowing, updateProfileWithImage, updateProfile } = loggedInUserSlice.actions;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const selectUser = (state: RootState) => state.activeuser.activeUser;
+export const selectLoggedInUser = (state: RootState) => state.activeUser.activeUser;
 export default loggedInUserSlice.reducer;
