@@ -17,11 +17,11 @@ const IsUserLoggedIn: React.FC<PROPS> = ({ children, path, exact }) => {
       path={path}
       exact={exact}
       render={({ location }) => {
-        if (user) {
+        if (user.uid) {
           return React.cloneElement(children, { user });
         }
 
-        if (!user) {
+        if (!user.uid) {
           return (
             <Redirect
               to={{

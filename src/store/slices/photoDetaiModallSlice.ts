@@ -21,10 +21,14 @@ export const photoDetailModalSlice = createSlice({
       workHours: '',
       workMoney: '',
     } as responcePhotoDataWithUserInfo,
+    isModalOpen: false,
   },
   reducers: {
     setPhotoDetail: (state, action: PayloadAction<responcePhotoDataWithUserInfo>) => {
       state.photoDetail = action.payload;
+    },
+    setIsModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.isModalOpen = action.payload;
     },
   },
 });
@@ -32,10 +36,13 @@ export const photoDetailModalSlice = createSlice({
 type RootState = {
   photoDetaile: {
     photoDetaile: responcePhotoDataWithUserInfo;
+    isModalOpen: boolean;
   };
 };
 
 export const { setPhotoDetail } = photoDetailModalSlice.actions;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const selectUser = (state: RootState) => state.photoDetaile.photoDetaile;
+export const selectPhotoDetaile = (state: RootState) => state.photoDetaile.photoDetaile;
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const selectModalOpen = (state: RootState) => state.photoDetaile.isModalOpen;
 export default photoDetailModalSlice.reducer;

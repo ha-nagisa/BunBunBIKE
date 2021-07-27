@@ -2,7 +2,7 @@ import React from 'react';
 
 const SignUp: React.FC = () => (
   <div>
-    <p>ProfileEditです。</p>
+    <p>SignUpです。</p>
   </div>
 );
 
