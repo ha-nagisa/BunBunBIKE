@@ -91,7 +91,7 @@ const PostEditModal: React.FC = () => {
 
   const closeModal = () => {
     backfaceFixed(false);
-    setIsModalOpen(false);
+    dispatch(setIsModalOpen(false));
   };
 
   return (
