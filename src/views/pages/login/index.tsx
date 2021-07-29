@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { firebase } from '../../../libs/firebase';
 import * as ROUTES from '../../../constants/routes';
-import ResetPasswordModal from '../../components/block/ResetPasswordModal';
+import ResetPasswordModal from '../../components/modules/resetPasswordModal';
 import backfaceFixed from '../../../utils/backfaceFixed';
 
 const Login: React.FC = () => {

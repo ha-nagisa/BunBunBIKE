@@ -262,7 +262,10 @@ export async function getPhotosFavorite(userId: string, likes: string[]): Promis
 }
 
 // すべてのポストを取得
-export async function getPhotosAll(userId: string, latestDoc: string): Promise<responcePhotoDataWithUserInfoLastDoc> {
+export async function getPhotosAll(
+  userId: string,
+  latestDoc: firebaseApp.firestore.QueryDocumentSnapshot<firebaseApp.firestore.DocumentData> | null
+): Promise<responcePhotoDataWithUserInfoLastDoc> {
   let result;
 
   if (latestDoc) {

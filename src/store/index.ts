@@ -11,7 +11,7 @@ export const store = configureStore({
     user: userReducer,
     activeUser: loggedInUserReducer,
     loggedInUserPhotos: loggedInUserPhotoReducer,
-    photoDetail: photoDetailModalReducer,
+    photoDetaile: photoDetailModalReducer,
     accountDeleteToast: ccountDeleteToastReducer,
     suggestionProfiles: suggestionProfilesReducer,
   },

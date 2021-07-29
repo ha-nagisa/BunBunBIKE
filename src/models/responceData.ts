@@ -1,5 +1,10 @@
 import firebaseApp from 'firebase';
 
+export interface COMMENT {
+  comment: string;
+  displayName: string;
+}
+
 export type responceUserData = {
   bikeImageUrl: string;
   carModel: string;
@@ -18,7 +23,7 @@ export type responcePhotoData = {
   maker: string;
   carModel: string;
   category: string;
-  comments: string[];
+  comments: COMMENT[];
   dateCreated: number;
   description: string;
   imageSrc: string;
@@ -34,7 +39,7 @@ export interface responcePhotoDataWithUserInfo {
   maker: string;
   carModel: string;
   category: string;
-  comments: string[];
+  comments: COMMENT[];
   dateCreated: number;
   description: string;
   imageSrc: string;

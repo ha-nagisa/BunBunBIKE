@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { responceUserData } from '../../models/responceData';
 
+interface UPDATELIKESOBJ {
+  toggleLiked: boolean;
+  docId: string;
+}
+
 export const loggedInUserSlice = createSlice({
   name: 'activeUser',
   initialState: {
@@ -37,9 +42,10 @@ export const loggedInUserSlice = createSlice({
         docId: undefined,
       };
     },
-    updateLikes: (state) => {
-      // eslint-disable-next-line no-console
-      console.log('updateLikes');
+    updateLikes: (state, action: PayloadAction<UPDATELIKESOBJ>) => {
+      state.activeUser.likes = action.payload.toggleLiked
+        ? state.activeUser.likes.filter((likeId) => likeId !== action.payload.docId)
+        : [...state.activeUser.likes, action.payload.docId];
     },
     updateFollowing: (state) => {
       // eslint-disable-next-line no-console
