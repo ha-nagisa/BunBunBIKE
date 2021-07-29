@@ -14,8 +14,8 @@ const useUser = (userId: string): void => {
     }
 
     if (userId) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      getUserObjByUserId(userId);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      getUserObjByUserId(userId).catch((err) => alert(err.message));
     } else {
       dispatch(logoutActiveUser());
     }

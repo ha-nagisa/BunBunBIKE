@@ -4,21 +4,7 @@ import { responceUserData } from '../../models/responceData';
 export const suggestionProfilesSlice = createSlice({
   name: 'suggestionProfiles',
   initialState: {
-    suggestionProfiles: [
-      {
-        bikeImageUrl: '',
-        carModel: '',
-        dateCreated: 0,
-        emailAddress: '',
-        followers: [''],
-        following: [''],
-        likes: [''],
-        maker: '',
-        userId: '',
-        username: '',
-        docId: '',
-      },
-    ] as responceUserData[],
+    suggestionProfiles: [] as responceUserData[],
   },
   reducers: {
     setSuggestionProfile: (state, action: PayloadAction<responceUserData[]>) => {
@@ -35,5 +21,5 @@ type RootState = {
 
 export const { setSuggestionProfile } = suggestionProfilesSlice.actions;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const selectUser = (state: RootState) => state.suggestionProfiles.suggestionProfiles;
+export const selectSuggestionProfiles = (state: RootState) => state.suggestionProfiles.suggestionProfiles;
 export default suggestionProfilesSlice.reducer;

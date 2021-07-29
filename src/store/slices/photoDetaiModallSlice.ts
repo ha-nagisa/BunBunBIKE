@@ -2,30 +2,29 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { responcePhotoDataWithUserInfo } from '../../models/responceData';
 
 export const photoDetailModalSlice = createSlice({
-  name: 'photoDetail',
+  name: 'photoDetaile',
   initialState: {
-    photoDetail: {
-      carModel: '',
-      category: '',
-      comments: [],
+    photoDetaile: {
+      maker: 'HONDA',
+      carModel: 'GB350',
+      category: 'ドレスアップ',
+      comments: [{}],
       dateCreated: 0,
-      description: '',
-      docId: '',
+      description: 'テストです。',
       imageSrc: '',
-      likes: [],
-      maker: '',
-      title: '',
+      likes: [''],
+      title: 'テスト',
       userId: '',
-      userLikedPhoto: false,
-      username: '',
       workHours: '',
       workMoney: '',
+      userLikedPhoto: false,
+      username: '',
     } as responcePhotoDataWithUserInfo,
     isModalOpen: false,
   },
   reducers: {
     setPhotoDetail: (state, action: PayloadAction<responcePhotoDataWithUserInfo>) => {
-      state.photoDetail = action.payload;
+      state.photoDetaile = action.payload;
     },
     setIsModalOpen: (state, action: PayloadAction<boolean>) => {
       state.isModalOpen = action.payload;
@@ -40,9 +39,9 @@ type RootState = {
   };
 };
 
-export const { setPhotoDetail } = photoDetailModalSlice.actions;
+export const { setPhotoDetail, setIsModalOpen } = photoDetailModalSlice.actions;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const selectPhotoDetaile = (state: RootState) => state.photoDetaile.photoDetaile;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const selectModalOpen = (state: RootState) => state.photoDetaile.isModalOpen;
+export const selectIsModalOpen = (state: RootState) => state.photoDetaile.isModalOpen;
 export default photoDetailModalSlice.reducer;
