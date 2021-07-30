@@ -13,6 +13,8 @@ import PostErrorModal from '../../components/modules/postErrorModal';
 import MobileSidebar from './mobileSidebar';
 import Sidebar from './sidebar';
 import TimeLineAll from './timeLineAll';
+import TimelineFavorite from './timeLineFavorite';
+import TimelineFollowing from './timelineFollowing';
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,9 +34,9 @@ const Dashboard: React.FC = () => {
       dispatch(setSuggestionProfile(response));
     }
 
-    if (activeUser?.userId) {
-      // eslint-disable-next-line no-void
-      void suggestedProfiles();
+    if (activeUser && activeUser?.userId) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      suggestedProfiles().catch((err) => alert(err.message));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeUser?.userId, activeUser?.following, activeUser?.maker]);
@@ -83,9 +85,9 @@ const Dashboard: React.FC = () => {
           {postConditional === 'all' ? (
             <TimeLineAll />
           ) : postConditional === 'follow' ? (
-            <div>Timelineです。</div>
+            <TimelineFollowing />
           ) : postConditional === 'favorite' ? (
-            <div>TimelineFavoriteです。</div>
+            <TimelineFavorite />
           ) : null}
         </div>
         <Sidebar />
