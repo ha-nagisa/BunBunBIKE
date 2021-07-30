@@ -4,7 +4,7 @@ import { responceUserData } from '../../models/responceData';
 export const suggestionProfilesSlice = createSlice({
   name: 'suggestionProfiles',
   initialState: {
-    suggestionProfiles: [] as responceUserData[],
+    suggestionProfiles: null as responceUserData[] | null,
   },
   reducers: {
     setSuggestionProfile: (state, action: PayloadAction<responceUserData[]>) => {
