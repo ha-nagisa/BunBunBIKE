@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const user = useSelector(selectUser);
   useUser(user.uid);
   useActiveUserPhotos(user.uid);
+  document.body.classList.add('bg-gray-background');
 
   return (
     <>
