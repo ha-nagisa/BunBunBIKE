@@ -34,8 +34,7 @@ const DeleteAccountModal: React.FC<PROPS> = ({ setIsDeleteAccountModalOpen }) =>
       const { currentUser } = firebase.auth();
       if (currentUser) {
         await currentUser.delete().catch((err) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          throw new Error(err.message);
+          throw new Error((err as Error).message);
         });
       } else {
         throw new Error('ログインできていない状態です。再度ログインをお願いいたします。');

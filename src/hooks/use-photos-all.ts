@@ -47,8 +47,7 @@ const usePhotosAll = (user: responceUserData): RETURNVALUE => {
       setPhotos(allPhotos);
     }
     if (latestDoc === null && latestDoc !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      getTimelinePhotosAll().catch((err) => alert(err.message));
+      getTimelinePhotosAll().catch((err) => alert((err as Error).message));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.userId, loggedInUserPhotos]);

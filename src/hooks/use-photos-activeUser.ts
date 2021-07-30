@@ -17,8 +17,6 @@ const useActiveUserPhotos = (userId: string): void => {
     if (userId) {
       // eslint-disable-next-line no-void
       void getUserPhotosAll();
-    } else {
-      dispatch(logoutLoggedInUserPhotos());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);

@@ -93,8 +93,7 @@ const PostPhoto: React.FC = () => {
         });
       history.push(ROUTES.DASHBOARD);
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      alert(error.message);
+      alert((error as Error).message);
     }
     setIsPosting(false);
   };

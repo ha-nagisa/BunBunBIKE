@@ -25,8 +25,8 @@ const NotFound = lazy(() => import('./views/pages/not-found'));
 const App: React.FC = () => {
   useAuthListener();
   const user = useSelector(selectUser);
-  useUser(user.uid);
-  useActiveUserPhotos(user.uid);
+  useUser(user ? user.uid : '');
+  useActiveUserPhotos(user ? user.uid : '');
   document.body.classList.add('bg-gray-background');
 
   return (

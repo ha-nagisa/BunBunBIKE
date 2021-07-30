@@ -37,8 +37,8 @@ const Profile: React.FC = () => {
         history.push(ROUTES.NOT_FOUND);
       }
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    checkUserExists().catch((err) => alert(err.message));
+
+    checkUserExists().catch((err) => alert((err as Error).message));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username, history]);
 

@@ -24,8 +24,8 @@ const POST: React.FC<PROPS> = ({ content }) => {
       const user = await getUserByUsername(content.username);
       setPostUser(user[0]);
     };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (content.username) getUser().catch((err) => alert(err.message));
+
+    if (content.username) getUser().catch((err) => alert((err as Error).message));
   }, [content.username]);
 
   const commentInput = useRef<HTMLInputElement>(null);

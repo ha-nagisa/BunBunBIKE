@@ -44,8 +44,8 @@ const ProfileMain: React.FC<PROPS> = ({ user, setIsOpenFollowingModal, setIsOpen
       }
       dispatch({ profile: user, photosCollection: photos, followerCount: user.followers.length });
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    getProfileInfoAndPhotos().catch((err) => alert(err.message));
+
+    getProfileInfoAndPhotos().catch((err) => alert((err as Error).message));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.username, loggedInUserPhotos]);
 

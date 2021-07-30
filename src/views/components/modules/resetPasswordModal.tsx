@@ -21,8 +21,7 @@ const ResetPasswordModal: React.FC<PROPS> = ({ setIsResetModalOpen, resetEmail, 
         successResetToast();
       })
       .catch((err) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        alert(err.message);
+        alert((err as Error).message);
         setResetEmail('');
       });
   };
