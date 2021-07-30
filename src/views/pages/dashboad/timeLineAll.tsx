@@ -8,7 +8,7 @@ import usePhotosAll from '../../../hooks/use-photos-all';
 import { selectLoggedInUserPhotos } from '../../../store/slices/loggedInUserPhotosSlice';
 import { selectLoggedInUser } from '../../../store/slices/loggedInUserSlice';
 import { getPhotosAll } from '../../../utils/firebase';
-import Post from '../../components/modules/post';
+import POST from '../../components/modules/post';
 
 const TimeLineAll: React.FC = () => {
   const user = useSelector(selectLoggedInUser);
@@ -62,7 +62,7 @@ const TimeLineAll: React.FC = () => {
       ) : (
         <>
           {photos.map((content) => (
-            <Post key={content.docId} content={content} />
+            <POST key={content.docId} content={content} />
           ))}
           {isDisplayMoreRead ? (
             <div className="col-span-4 text-center pb-10  pt-0 sm:pt-5">

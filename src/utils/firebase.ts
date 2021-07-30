@@ -208,7 +208,7 @@ export async function updateFollowedUserFollowers(profileDocId: string, loggedIn
 }
 
 // ログインしているユーザーがフォローしている人のポストを取得
-export async function getPhotos(userId: string, following: string[]): Promise<responcePhotoDataWithUserInfo[] | null> {
+export async function getPhotosFollwoing(userId: string, following: string[]): Promise<responcePhotoDataWithUserInfo[] | null> {
   if (following && following.length > 0) {
     const collectionPath = firebase.firestore().collection('photos');
     const getQuery = (batch: string[]) => collectionPath.where('userId', 'in', batch);

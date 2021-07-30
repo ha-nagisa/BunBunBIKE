@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Header from '../../components/block/header';
+import PostPhoto from './postPhoto';
 
-const Post: React.FC = () => (
-  <div>
-    <p>Postです。</p>
-  </div>
-);
+const Post: React.FC = () => {
+  useEffect(() => {
+    document.title = 'POST | Bun Bun BIKE';
+  }, []);
+
+  return (
+    <div className="bg-gray-background">
+      <Header />
+      <PostPhoto />
+    </div>
+  );
+};
 
 export default Post;

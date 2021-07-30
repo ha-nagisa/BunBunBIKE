@@ -64,17 +64,19 @@ const MobileSidebarSuggestions: React.FC = () => {
       {isSliderOn ? (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <Slider {...settings}>
-          {profiles.map((profile) => (
-            <MobileSuggestedProfile
-              key={profile.docId}
-              profileDocId={profile.docId as string}
-              username={profile.username}
-              profileId={profile.userId}
-              userId={user.userId}
-              loggedInUserDocId={user.docId as string}
-              profileImageUrl={profile.bikeImageUrl}
-            />
-          ))}
+          {user
+            ? profiles.map((profile) => (
+                <MobileSuggestedProfile
+                  key={profile.docId}
+                  profileDocId={profile.docId as string}
+                  username={profile.username}
+                  profileId={profile.userId}
+                  userId={user.userId}
+                  loggedInUserDocId={user.docId as string}
+                  profileImageUrl={profile.bikeImageUrl}
+                />
+              ))
+            : null}
         </Slider>
       ) : (
         <div className="flex">

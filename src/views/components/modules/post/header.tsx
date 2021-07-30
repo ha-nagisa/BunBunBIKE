@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import DEFAULT_IMAGE_PATH from '../../../../constants/paths';
 import { responcePhotoDataWithUserInfo, responceUserData } from '../../../../models/responceData';
-import { selectIsModalOpen, setIsModalOpen, setPhotoDetail } from '../../../../store/slices/photoDetaiModallSlice';
+import { setIsModalOpen, setPhotoDetail } from '../../../../store/slices/photoDetaiModallSlice';
 import { selectUser } from '../../../../store/slices/userSlice';
 import backfaceFixed from '../../../../utils/backfaceFixed';
 
@@ -15,7 +15,6 @@ interface PROPS {
 
 const Header: React.FC<PROPS> = ({ content, postUser, isProfilePage }) => {
   const dispatch = useDispatch();
-  const isModalOpen = useSelector(selectIsModalOpen);
   const loggedInUser = useSelector(selectUser);
   const isPostUser = loggedInUser.displayName === content.username;
 

@@ -19,17 +19,19 @@ const Suggestions: React.FC = () => {
         <p className="font-bold text-gray-base">あなたにおすすめのユーザー</p>
       </div>
       <div className="mt-4 grid gap-5">
-        {profiles.map((profile) => (
-          <SuggestedProfile
-            key={profile.docId}
-            profileDocId={profile.docId as string}
-            username={profile.username}
-            profileId={profile.userId}
-            userId={user.userId}
-            loggedInUserDocId={user.docId as string}
-            profileImageUrl={profile.bikeImageUrl}
-          />
-        ))}
+        {user
+          ? profiles.map((profile) => (
+              <SuggestedProfile
+                key={profile.docId}
+                profileDocId={profile.docId as string}
+                username={profile.username}
+                profileId={profile.userId}
+                userId={user.userId}
+                loggedInUserDocId={user.docId as string}
+                profileImageUrl={profile.bikeImageUrl}
+              />
+            ))
+          : null}
       </div>
     </div>
   ) : null;

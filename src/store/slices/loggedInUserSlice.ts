@@ -6,6 +6,26 @@ interface UPDATELIKESOBJ {
   docId: string;
 }
 
+interface UPDATEFOLLOWINGOBJ {
+  isFollowingProfile: boolean;
+  profileUserId: string;
+}
+
+interface UPDATEPLOFILEWITHIMAGEOBJ {
+  bikeImageUrl: string;
+  carModel: string;
+  emailAddress: string;
+  maker: string;
+  username: string;
+}
+
+interface UPDATEPLOFILEOBJ {
+  carModel: string;
+  emailAddress: string;
+  maker: string;
+  username: string;
+}
+
 export const loggedInUserSlice = createSlice({
   name: 'activeUser',
   initialState: {
@@ -47,17 +67,23 @@ export const loggedInUserSlice = createSlice({
         ? state.activeUser.likes.filter((likeId) => likeId !== action.payload.docId)
         : [...state.activeUser.likes, action.payload.docId];
     },
-    updateFollowing: (state) => {
-      // eslint-disable-next-line no-console
-      console.log('updateFollowing');
+    updateFollowing: (state, action: PayloadAction<UPDATEFOLLOWINGOBJ>) => {
+      state.activeUser.following = action.payload.isFollowingProfile
+        ? state.activeUser.following.filter((uid) => uid !== action.payload.profileUserId)
+        : [...state.activeUser.following, action.payload.profileUserId];
     },
-    updateProfileWithImage: (state) => {
-      // eslint-disable-next-line no-console
-      console.log('updateProfileWithImage');
+    updateProfileWithImage: (state, action: PayloadAction<UPDATEPLOFILEWITHIMAGEOBJ>) => {
+      state.activeUser.bikeImageUrl = action.payload.bikeImageUrl;
+      state.activeUser.carModel = action.payload.carModel;
+      state.activeUser.emailAddress = action.payload.emailAddress;
+      state.activeUser.maker = action.payload.maker;
+      state.activeUser.username = action.payload.username;
     },
-    updateProfile: (state) => {
-      // eslint-disable-next-line no-console
-      console.log('updateProfile');
+    updateProfile: (state, action: PayloadAction<UPDATEPLOFILEOBJ>) => {
+      state.activeUser.carModel = action.payload.carModel;
+      state.activeUser.emailAddress = action.payload.emailAddress;
+      state.activeUser.maker = action.payload.maker;
+      state.activeUser.username = action.payload.username;
     },
   },
 });
