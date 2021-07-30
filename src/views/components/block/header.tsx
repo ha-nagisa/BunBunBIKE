@@ -56,7 +56,7 @@ const Header: React.FC = () => {
                     />
                   </svg>
                 </button>
-                {activeUser.userId && (
+                {activeUser && activeUser.userId && (
                   <div className="flex items-center cursor-pointer">
                     <Link to={`/p/${activeUser.username ? activeUser.username : 'not-found'}`}>
                       <img

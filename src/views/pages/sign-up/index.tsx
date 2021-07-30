@@ -115,8 +115,8 @@ const SignUp: React.FC = () => {
       <div className="flex flex-col w-full sm:w-1/2 sm:pt-harf sm:relative sm:border-0">
         <div className="flex flex-col items-center sm:w-4/5 rounded mx-auto sm:mx-0 sm:absolute sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2">
           <div className="bg-white p-4 mb-4 shadow-lg text-center mt-4">
-            <div className="mb-5 block sm:hidden">
-              <img src="/images/smLoginLogo.png" alt="Bun Bun BIKE" width="300px" />
+            <div className="mb-5 block sm:hidden text-center">
+              <img src="/images/smLoginLogo.png" className="inline-block" alt="Bun Bun BIKE" width="300px" />
             </div>
             <h1 className="hidden sm:flex justify-center w-full font-logoFont font-bold mb-5 text-2xl">サインアップ</h1>
 
@@ -378,7 +378,7 @@ const SignUp: React.FC = () => {
                 onChange={({ target }) => setEmailAddress(target.value)}
                 value={emailAddress}
               />
-              <div className="mb-4 mr-3">
+              <div className="mb-4">
                 <input
                   aria-label="Enter your password"
                   type="password"
