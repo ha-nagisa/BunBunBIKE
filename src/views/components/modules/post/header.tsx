@@ -9,7 +9,7 @@ import backfaceFixed from '../../../../utils/backfaceFixed';
 
 interface PROPS {
   content: responcePhotoDataWithUserInfo;
-  postUser: responceUserData;
+  postUser: responceUserData | null;
   isProfilePage: boolean;
 }
 

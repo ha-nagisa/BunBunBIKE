@@ -34,7 +34,7 @@ const POST: React.FC<PROPS> = ({ content }) => {
   return (
     <div className={`${isProfilePage ? 'group' : 'col-span-4 sm:col-span-2'}  sm;mb-12 mb-8`}>
       <div className="rounded border bg-white border-gray-primary">
-        {postUser ? <Header content={content} postUser={postUser} isProfilePage={isProfilePage} /> : null}
+        <Header content={content} postUser={postUser} isProfilePage={isProfilePage} />
         <Image realSrc={content.imageSrc} title={content.title} />
         <Footer title={content.title} category={content.category} />
         <Actions docId={content.docId as string} totalLikes={content.likes.length} likedPhoto={content.userLikedPhoto} handleFocus={handleFocus} />
