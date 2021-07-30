@@ -265,9 +265,3 @@ const DeleteAccountModal: React.FC<PROPS> = ({ setIsDeleteAccountModalOpen }) =>
 };
 
 export default DeleteAccountModal;
-
-// import React from 'react';
-
-// const deleteAccountModal = () => <div>こんにちは</div>;
-
-// export default deleteAccountModal;

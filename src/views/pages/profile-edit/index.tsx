@@ -116,150 +116,148 @@ const ProfileEdit: React.FC = () => {
           });
         }
 
-        if (!errorText) {
-          let url = '';
-          if (bikeImage && activeUser?.bikeImageUrl !== bikeImage && typeof bikeImage !== 'string') {
-            const S = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            const N = 16;
-            const randomChar = Array.from(crypto.getRandomValues(new Uint32Array(N)))
-              .map((n) => S[n % S.length])
-              .join('');
-            const fileName = `${randomChar}_${bikeImage.name}`;
-            await firebase.storage().ref(`bikes/${fileName}`).put(bikeImage);
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            url = await firebase.storage().ref('bikes').child(fileName).getDownloadURL();
+        let url = '';
+        if (bikeImage && activeUser?.bikeImageUrl !== bikeImage && typeof bikeImage !== 'string') {
+          const S = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+          const N = 16;
+          const randomChar = Array.from(crypto.getRandomValues(new Uint32Array(N)))
+            .map((n) => S[n % S.length])
+            .join('');
+          const fileName = `${randomChar}_${bikeImage.name}`;
+          await firebase.storage().ref(`bikes/${fileName}`).put(bikeImage);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          url = await firebase.storage().ref('bikes').child(fileName).getDownloadURL();
 
-            if (currentUser) {
-              await currentUser
-                .updateProfile({
-                  displayName: username.toLowerCase(),
-                  photoURL: url,
-                })
-                .catch((error) => {
-                  throw new Error((error as Error).message);
-                });
-            }
-
-            await firebase
-              .firestore()
-              .collection('users')
-              .doc(activeUser?.docId)
-              .update({
-                username: username.toLowerCase(),
-                bikeImageUrl: url,
-                carModel,
-                maker,
-                emailAddress: emailAddress.toLowerCase(),
+          if (currentUser) {
+            await currentUser
+              .updateProfile({
+                displayName: username.toLowerCase(),
+                photoURL: url,
               })
               .catch((error) => {
                 throw new Error((error as Error).message);
               });
-
-            await firebase
-              .firestore()
-              .collection('photos')
-              .where('comments', '!=', [])
-              .get()
-              .then(async (res) => {
-                if (res.docs.length > 0) {
-                  await Promise.all(
-                    res.docs.map((doc) => {
-                      if ((doc.data() as responcePhotoData).comments.some((comment) => comment.displayName === activeUser.username)) {
-                        firebase
-                          .firestore()
-                          .collection('photos')
-                          .doc(doc.id)
-                          .update({
-                            comments: (doc.data() as responcePhotoData).comments.map((e) => {
-                              if (e.displayName === activeUser.username) {
-                                return {
-                                  comment: e.comment,
-                                  displayName: username.toLowerCase(),
-                                };
-                              }
-                              return e;
-                            }),
-                          })
-                          .catch((error) => {
-                            throw new Error((error as Error).message);
-                          });
-                      }
-                      return doc;
-                    })
-                  ).catch((error) => {
-                    throw new Error((error as Error).message);
-                  });
-                }
-              });
-
-            dispatch(updateProfileWithImage({ bikeImageUrl: url, carModel, emailAddress, maker, username }));
-
-            successUpdateToast();
-          } else {
-            if (currentUser) {
-              await currentUser
-                .updateProfile({
-                  displayName: username.toLowerCase(),
-                })
-                .catch((error) => {
-                  throw new Error((error as Error).message);
-                });
-            }
-
-            await firebase
-              .firestore()
-              .collection('users')
-              .doc(activeUser?.docId)
-              .update({
-                username: username.toLowerCase(),
-                carModel,
-                maker,
-                emailAddress: emailAddress.toLowerCase(),
-              })
-              .catch((error) => {
-                throw new Error((error as Error).message);
-              });
-
-            await firebase
-              .firestore()
-              .collection('photos')
-              .where('comments', '!=', [])
-              .get()
-              .then(async (res) => {
-                if (res.docs.length > 0) {
-                  await Promise.all(
-                    res.docs.map((doc) => {
-                      if ((doc.data() as responcePhotoData).comments.some((comment) => comment.displayName === activeUser.username)) {
-                        firebase
-                          .firestore()
-                          .collection('photos')
-                          .doc(doc.id)
-                          .update({
-                            comments: (doc.data() as responcePhotoData).comments.map((e) => {
-                              if (e.displayName === activeUser.username) {
-                                return {
-                                  comment: e.comment,
-                                  displayName: username.toLowerCase(),
-                                };
-                              }
-                              return e;
-                            }),
-                          })
-                          .catch((error) => {
-                            throw new Error((error as Error).message);
-                          });
-                      }
-                      return doc;
-                    })
-                  ).catch((error) => {
-                    throw new Error((error as Error).message);
-                  });
-                }
-              });
-
-            dispatch(updateProfile({ carModel, emailAddress, maker, username }));
-            successUpdateToast();
           }
+
+          await firebase
+            .firestore()
+            .collection('users')
+            .doc(activeUser?.docId)
+            .update({
+              username: username.toLowerCase(),
+              bikeImageUrl: url,
+              carModel,
+              maker,
+              emailAddress: emailAddress.toLowerCase(),
+            })
+            .catch((error) => {
+              throw new Error((error as Error).message);
+            });
+
+          await firebase
+            .firestore()
+            .collection('photos')
+            .where('comments', '!=', [])
+            .get()
+            .then(async (res) => {
+              if (res.docs.length > 0) {
+                await Promise.all(
+                  res.docs.map((doc) => {
+                    if ((doc.data() as responcePhotoData).comments.some((comment) => comment.displayName === activeUser.username)) {
+                      firebase
+                        .firestore()
+                        .collection('photos')
+                        .doc(doc.id)
+                        .update({
+                          comments: (doc.data() as responcePhotoData).comments.map((e) => {
+                            if (e.displayName === activeUser.username) {
+                              return {
+                                comment: e.comment,
+                                displayName: username.toLowerCase(),
+                              };
+                            }
+                            return e;
+                          }),
+                        })
+                        .catch((error) => {
+                          throw new Error((error as Error).message);
+                        });
+                    }
+                    return doc;
+                  })
+                ).catch((error) => {
+                  throw new Error((error as Error).message);
+                });
+              }
+            });
+
+          dispatch(updateProfileWithImage({ bikeImageUrl: url, carModel, emailAddress, maker, username }));
+
+          successUpdateToast();
+        } else {
+          if (currentUser) {
+            await currentUser
+              .updateProfile({
+                displayName: username.toLowerCase(),
+              })
+              .catch((error) => {
+                throw new Error((error as Error).message);
+              });
+          }
+
+          await firebase
+            .firestore()
+            .collection('users')
+            .doc(activeUser?.docId)
+            .update({
+              username: username.toLowerCase(),
+              carModel,
+              maker,
+              emailAddress: emailAddress.toLowerCase(),
+            })
+            .catch((error) => {
+              throw new Error((error as Error).message);
+            });
+
+          await firebase
+            .firestore()
+            .collection('photos')
+            .where('comments', '!=', [])
+            .get()
+            .then(async (res) => {
+              if (res.docs.length > 0) {
+                await Promise.all(
+                  res.docs.map((doc) => {
+                    if ((doc.data() as responcePhotoData).comments.some((comment) => comment.displayName === activeUser.username)) {
+                      firebase
+                        .firestore()
+                        .collection('photos')
+                        .doc(doc.id)
+                        .update({
+                          comments: (doc.data() as responcePhotoData).comments.map((e) => {
+                            if (e.displayName === activeUser.username) {
+                              return {
+                                comment: e.comment,
+                                displayName: username.toLowerCase(),
+                              };
+                            }
+                            return e;
+                          }),
+                        })
+                        .catch((error) => {
+                          throw new Error((error as Error).message);
+                        });
+                    }
+                    return doc;
+                  })
+                ).catch((error) => {
+                  throw new Error((error as Error).message);
+                });
+              }
+            });
+
+          dispatch(updateProfile({ carModel, emailAddress, maker, username }));
+          successUpdateToast();
         }
       } catch (error) {
         setErrorText((error as Error).message);
