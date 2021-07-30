@@ -57,8 +57,7 @@ const Actions: React.FC<PROPS> = ({ docId, totalLikes, likedPhoto, handleFocus }
             onClick={handleToggleLiked}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                handleToggleLiked().catch((err) => alert(err.message));
+                handleToggleLiked().catch((err) => alert((err as Error).message));
               }
             }}
             xmlns="http://www.w3.org/2000/svg"

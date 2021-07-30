@@ -28,8 +28,7 @@ const usePhotosFollowing = (user: responceUserData): RETURNVALUE => {
     }
 
     getTimelinePhotosFollowing().catch((err) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      alert(err.message);
+      alert((err as Error).message);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.userId, user?.following]);

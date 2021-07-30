@@ -55,8 +55,7 @@ const ProfileHeader: React.FC<PROPS> = ({
     };
 
     if (activeUser?.username && profileUserId) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      isLoggedInUserFollowingProfile().catch((err) => alert(err.message));
+      isLoggedInUserFollowingProfile().catch((err) => alert((err as Error).message));
     }
   }, [activeUser?.username, profileUserId, profileUsername]);
 
@@ -105,8 +104,7 @@ const ProfileHeader: React.FC<PROPS> = ({
                   onClick={handleToggleFollow}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter') {
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                      handleToggleFollow().catch((err) => alert(err.message));
+                      handleToggleFollow().catch((err) => alert((err as Error).message));
                     }
                   }}
                 >

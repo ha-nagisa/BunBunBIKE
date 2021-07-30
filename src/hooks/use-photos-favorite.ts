@@ -37,8 +37,7 @@ const usePhotosFavorite = (user: responceUserData): RETURNVALUE => {
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    getTimelinePhotosFavorite().catch((err) => alert(err.message));
+    getTimelinePhotosFavorite().catch((err) => alert((err as Error).message));
   }, [user?.userId, loggedInUserPhotos, user?.likes]);
 
   return { photos };

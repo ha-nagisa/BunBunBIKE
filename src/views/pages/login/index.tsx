@@ -52,8 +52,8 @@ const Login: React.FC = () => {
       setEmailAddress('');
       setPassword('');
       setIsActioning(false);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      setError(err.message);
+
+      setError((err as Error).message);
     }
   };
 

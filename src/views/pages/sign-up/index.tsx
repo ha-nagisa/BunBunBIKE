@@ -94,8 +94,7 @@ const SignUp: React.FC = () => {
         setCarModel('');
         setEmailAddress('');
         setPassword('');
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        setError(err.message);
+        setError((err as Error).message);
         setIsActioning(false);
       }
     } else {

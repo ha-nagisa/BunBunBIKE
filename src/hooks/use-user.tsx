@@ -14,10 +14,7 @@ const useUser = (userId: string): void => {
     }
 
     if (userId) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      getUserObjByUserId(userId).catch((err) => alert(err.message));
-    } else {
-      dispatch(logoutActiveUser());
+      getUserObjByUserId(userId).catch((err) => alert((err as Error).message));
     }
   }, [dispatch, userId]);
 };

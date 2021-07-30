@@ -16,25 +16,7 @@ interface updateCommentsPhotoActionType {
 export const loggedInUserPhotosSlice = createSlice({
   name: 'loggedInUserPhotos',
   initialState: {
-    loggedInUserPhotos: [
-      {
-        maker: '',
-        carModel: '',
-        category: '',
-        comments: [{}],
-        dateCreated: 0,
-        description: '',
-        imageSrc: '',
-        likes: [''],
-        title: '',
-        userId: '',
-        workHours: '',
-        workMoney: '',
-        docId: '',
-        userLikedPhoto: false,
-        username: '',
-      },
-    ] as responcePhotoDataWithUserInfo[],
+    loggedInUserPhotos: [] as responcePhotoDataWithUserInfo[],
   },
   reducers: {
     setLoggedInUserPhotos: (state, action: PayloadAction<responcePhotoDataWithUserInfo[]>) => {

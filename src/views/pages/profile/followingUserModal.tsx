@@ -21,8 +21,7 @@ const FollowingUserModal: React.FC<PROPS> = ({ user, setIsOpenFollowingModal }) 
     };
 
     if (user?.userId) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      getFollowingUsers().catch((err) => alert(err.message));
+      getFollowingUsers().catch((err) => alert((err as Error).message));
     }
   }, [user?.userId, user?.following]);
 

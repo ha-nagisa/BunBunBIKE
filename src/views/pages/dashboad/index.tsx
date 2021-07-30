@@ -35,8 +35,7 @@ const Dashboard: React.FC = () => {
     }
 
     if (activeUser && activeUser?.userId) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      suggestedProfiles().catch((err) => alert(err.message));
+      suggestedProfiles().catch((err) => alert((err as Error).message));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeUser?.userId, activeUser?.following, activeUser?.maker]);

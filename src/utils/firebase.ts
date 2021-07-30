@@ -187,8 +187,7 @@ export async function updateLoggedInUserFollowing(loggedInUserDocId: string, pro
       following: isFollowingProfile ? FieldValue.arrayRemove(profileId) : FieldValue.arrayUnion(profileId),
     })
     .catch((error) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      alert(error.message);
+      alert((error as Error).message);
     });
 }
 
@@ -202,8 +201,7 @@ export async function updateFollowedUserFollowers(profileDocId: string, loggedIn
       followers: isFollowingProfile ? FieldValue.arrayRemove(loggedInUserDocId) : FieldValue.arrayUnion(loggedInUserDocId),
     })
     .catch((error) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      alert(error.message);
+      alert((error as Error).message);
     });
 }
 
@@ -346,7 +344,7 @@ export async function isUserFollowingProfile(loggedInUserUsername: string, profi
     docId: item.id,
   }));
 
-  return response.userId;
+  return response ? response.userId : '';
 }
 
 // フォローとフォローの解除

@@ -84,8 +84,7 @@ const PostEditModal: React.FC = () => {
       dispatch(setIsModalOpen(!isModalOpen));
       backfaceFixed(false);
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      alert(error.message);
+      alert((error as Error).message);
     }
   };
 
