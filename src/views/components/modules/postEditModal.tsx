@@ -2,10 +2,11 @@
 /* eslint-disable jsx-a11y/no-onchange */
 
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { firebase } from '../../../libs/firebase';
 
-import { selectLoggedInUserPhotos, setLoggedInUserPhotos } from '../../../store/slices/loggedInUserPhotosSlice';
+import { selectLoggedInUserPhotos, updatePhoto } from '../../../store/slices/loggedInUserPhotosSlice';
 import { selectIsModalOpen, selectPhotoDetaile, setIsModalOpen } from '../../../store/slices/photoDetaiModallSlice';
 import backfaceFixed from '../../../utils/backfaceFixed';
 
@@ -25,6 +26,20 @@ const PostEditModal: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const isInvalid = title === '' || description === '' || category === '' || workHours === '' || workMoney === '' || workImage === null;
+
+  const editsuccess = () =>
+    toast.success('正常に投稿が更新されました。', {
+      style: {
+        border: '1px solid #ffffff',
+        padding: '16px',
+        color: 'rgb(55, 65, 81)',
+        background: '#ffffff',
+      },
+      iconTheme: {
+        primary: '#ff9800',
+        secondary: '#ffffff',
+      },
+    });
 
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files !== null && e.currentTarget.files[0]) {
@@ -66,25 +81,25 @@ const PostEditModal: React.FC = () => {
       });
 
       if (loggedInUserPhotos && loggedInUserPhotos.length > 0) {
-        const copyLoggedInUserPhotos = [...loggedInUserPhotos];
-        const updatedLoggedInUserPhotos = copyLoggedInUserPhotos.map((userPhoto) => {
-          if (userPhoto.docId === modalInfo.docId) {
-            userPhoto.title = title;
-            userPhoto.description = description;
-            userPhoto.imageSrc = workImageUrl;
-            userPhoto.category = category;
-            userPhoto.workMoney = workMoney;
-            userPhoto.workHours = workHours;
-          }
-          return userPhoto;
-        });
-        dispatch(setLoggedInUserPhotos(updatedLoggedInUserPhotos));
+        dispatch(
+          updatePhoto({
+            docId: modalInfo.docId as string,
+            title,
+            description,
+            workImageUrl,
+            category,
+            workMoney,
+            workHours,
+          })
+        );
       }
       setIsLoading(false);
       dispatch(setIsModalOpen(!isModalOpen));
       backfaceFixed(false);
+      editsuccess();
     } catch (error) {
       alert((error as Error).message);
+      setIsLoading(false);
     }
   };
 
@@ -108,10 +123,10 @@ const PostEditModal: React.FC = () => {
                       <div>
                         <label htmlFor="file" className="text-sm text-logoColor-littleLight cursor-pointer underline mb-2 inline-block">
                           写真を変更する
-                          <input type="file" className="hidden" onChange={onChangeImageHandler} />
+                          <input id="file" type="file" className="hidden" onChange={onChangeImageHandler} />
                         </label>
                       </div>
-                      <img src={previewWorkImageSrc} alt="" />
+                      <img src={previewWorkImageSrc} alt="preview" />
                     </div>
                   ) : (
                     <label

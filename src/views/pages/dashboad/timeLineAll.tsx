@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebaseApp from 'firebase';
 import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
@@ -47,6 +47,27 @@ const TimeLineAll: React.FC = () => {
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    const updateLoggedInUserPhotos = () => {
+      setPhotos((prevPhotos) => {
+        if (prevPhotos) {
+          return prevPhotos.map((photo) => {
+            if (loggedInUserPhotos.some((lphoto) => lphoto.docId === photo.docId)) {
+              return loggedInUserPhotos.filter((lphoto) => lphoto.docId === photo.docId)[0];
+            }
+            return photo;
+          });
+        }
+        return prevPhotos;
+      });
+    };
+
+    if (loggedInUserPhotos && loggedInUserPhotos.length > 0) {
+      updateLoggedInUserPhotos();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUserPhotos]);
 
   return (
     <>

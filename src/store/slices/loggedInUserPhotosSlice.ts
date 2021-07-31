@@ -1,6 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { responcePhotoDataWithUserInfo } from '../../models/responceData';
 
+interface UpdatePhotoActionType {
+  docId: string;
+  title: string;
+  description: string;
+  workImageUrl: string;
+  category: string;
+  workMoney: string;
+  workHours: string;
+}
+
 interface updateLikesPhotoActionType {
   docId: string;
   userId: string;
@@ -46,6 +56,19 @@ export const loggedInUserPhotosSlice = createSlice({
     addLoggedInUserPhoto: (state, action: PayloadAction<responcePhotoDataWithUserInfo>) => {
       state.loggedInUserPhotos = [...state.loggedInUserPhotos, action.payload];
     },
+    updatePhoto: (state, action: PayloadAction<UpdatePhotoActionType>) => {
+      state.loggedInUserPhotos = state.loggedInUserPhotos.map((userPhoto) => {
+        if (userPhoto.docId === action.payload.docId) {
+          userPhoto.title = action.payload.title;
+          userPhoto.description = action.payload.description;
+          userPhoto.imageSrc = action.payload.workImageUrl;
+          userPhoto.category = action.payload.category;
+          userPhoto.workMoney = action.payload.workMoney;
+          userPhoto.workHours = action.payload.workHours;
+        }
+        return userPhoto;
+      });
+    },
     updateLikesPhoto: (state, action: PayloadAction<updateLikesPhotoActionType>) => {
       state.loggedInUserPhotos = state.loggedInUserPhotos.map((photo) => {
         if (photo.docId === action.payload.docId) {
@@ -77,6 +100,7 @@ type RootState = {
 export const {
   setLoggedInUserPhotos,
   logoutLoggedInUserPhotos,
+  updatePhoto,
   addLoggedInUserPhoto,
   updateLikesPhoto,
   updateCommentsPhoto,
