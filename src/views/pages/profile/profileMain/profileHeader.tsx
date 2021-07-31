@@ -24,9 +24,11 @@ interface PROPS {
   setIsOpenFollowingModal: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenFollowedModal: React.Dispatch<React.SetStateAction<boolean>>;
   profile: responceUserData;
+  setUser: React.Dispatch<React.SetStateAction<responceUserData | null>>;
 }
 
 const ProfileHeader: React.FC<PROPS> = ({
+  setUser,
   photosCount,
   followerCount,
   setFollowerCount,
@@ -68,6 +70,17 @@ const ProfileHeader: React.FC<PROPS> = ({
       await toggleFollow(isFollowingProfile, activeUser.docId, profileDocId, profileUserId, activeUser.userId);
 
       dispatch(updateFollowing({ isFollowingProfile, profileUserId }));
+      setUser((prevUser) => {
+        if (prevUser) {
+          return {
+            ...prevUser,
+            followers: isFollowingProfile
+              ? prevUser.followers.filter((uid) => uid !== activeUser.userId)
+              : [...prevUser.followers, activeUser.userId],
+          };
+        }
+        return prevUser;
+      });
     }
   };
 

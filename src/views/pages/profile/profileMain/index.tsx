@@ -11,6 +11,7 @@ interface PROPS {
   user: responceUserData;
   setIsOpenFollowingModal: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenFollowedModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser: React.Dispatch<React.SetStateAction<responceUserData | null>>;
 }
 
 interface StateType {
@@ -23,7 +24,7 @@ interface ActionType {
   photosCollection?: responcePhotoDataWithUserInfo[] | null;
   followerCount: number;
 }
-const ProfileMain: React.FC<PROPS> = ({ user, setIsOpenFollowingModal, setIsOpenFollowedModal }) => {
+const ProfileMain: React.FC<PROPS> = ({ user, setIsOpenFollowingModal, setIsOpenFollowedModal, setUser }) => {
   const activeUser = useSelector(selectLoggedInUser);
   const loggedInUserPhotos = useSelector(selectLoggedInUserPhotos);
   const reducer = (state: StateType, newState: ActionType) => ({ ...state, ...newState });
@@ -58,6 +59,7 @@ const ProfileMain: React.FC<PROPS> = ({ user, setIsOpenFollowingModal, setIsOpen
         setFollowerCount={dispatch}
         setIsOpenFollowingModal={setIsOpenFollowingModal}
         setIsOpenFollowedModal={setIsOpenFollowedModal}
+        setUser={setUser}
       />
       <ProfilePhotos photos={photosCollection} />
     </>
