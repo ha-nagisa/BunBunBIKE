@@ -41,12 +41,18 @@ const Profile: React.FC = () => {
     checkUserExists().catch((err) => alert((err as Error).message));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username, history]);
+  console.log(user);
 
   return user?.username ? (
     <div className="bg-gray-background relative">
       <Header />
       <div className="mx-auto max-w-screen-xl pb-5">
-        <ProfileMain user={user} setIsOpenFollowingModal={setIsOpenFollowingModal} setIsOpenFollowedModal={setIsOpenFollowedModal} />
+        <ProfileMain
+          user={user}
+          setUser={setUser}
+          setIsOpenFollowingModal={setIsOpenFollowingModal}
+          setIsOpenFollowedModal={setIsOpenFollowedModal}
+        />
       </div>
       {isOpenFollowingModal ? <FollowingUserModal user={user} setIsOpenFollowingModal={setIsOpenFollowingModal} /> : null}
       {isOpenFollowedModal ? <FollowedUserModal user={user} setIsOpenFollowedModal={setIsOpenFollowedModal} /> : null}
