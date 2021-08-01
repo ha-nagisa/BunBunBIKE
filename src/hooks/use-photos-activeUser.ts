@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { logoutLoggedInUserPhotos, setLoggedInUserPhotos } from '../store/slices/loggedInUserPhotosSlice';
+import { setLoggedInUserPhotos } from '../store/slices/loggedInUserPhotosSlice';
 import { getUserPhotosByUserId } from '../utils/firebase';
 
 const useActiveUserPhotos = (userId: string): void => {

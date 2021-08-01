@@ -18,6 +18,7 @@ import DeleteAccountModal from './deleteAccountModal';
 import DEFAULT_IMAGE_PATH from '../../../constants/paths';
 import { selectLoggedInUser, updateProfile, updateProfileWithImage } from '../../../store/slices/loggedInUserSlice';
 import { responcePhotoData } from '../../../models/responceData';
+import { updateLoggeInUserName } from '../../../store/slices/loggedInUserPhotosSlice';
 
 const ProfileEdit: React.FC = () => {
   const location = useLocation();
@@ -105,12 +106,12 @@ const ProfileEdit: React.FC = () => {
     if (isLoggedInUser) {
       const usernameExists = await doesUsernameExist(username);
       try {
-        if (usernameExists) {
+        if (usernameExists && activeUser.username !== username) {
           throw new Error('既に入力したユーザーネームを持ったユーザーが存在します。ユーザーネームを変更してください。');
         }
         const { currentUser } = firebase.auth();
 
-        if (currentUser) {
+        if (currentUser && activeUser.emailAddress !== emailAddress) {
           await currentUser.updateEmail(emailAddress).catch((error) => {
             throw new Error((error as Error).message);
           });
@@ -195,7 +196,7 @@ const ProfileEdit: React.FC = () => {
 
           successUpdateToast();
         } else {
-          if (currentUser) {
+          if (currentUser && activeUser.username !== username.toLowerCase()) {
             await currentUser
               .updateProfile({
                 displayName: username.toLowerCase(),
@@ -259,6 +260,8 @@ const ProfileEdit: React.FC = () => {
           dispatch(updateProfile({ carModel, emailAddress, maker, username }));
           successUpdateToast();
         }
+
+        dispatch(updateLoggeInUserName({ username: username.toLowerCase() }));
       } catch (error) {
         setErrorText((error as Error).message);
       }
