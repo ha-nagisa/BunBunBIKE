@@ -27,7 +27,7 @@ const SignUp: React.FC = () => {
     password === '' || emailAddress === '' || username === '' || bikeImage === '' || maker === '' || carModel === '' || password.length < 6;
 
   useEffect(() => {
-    document.title = 'Sign Up - Bun Bun Bike';
+    document.title = 'Sign Up | Bun Bun Bike';
   }, []);
 
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
