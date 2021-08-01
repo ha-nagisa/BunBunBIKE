@@ -4,7 +4,7 @@ import PostPhoto from './postPhoto';
 
 const Post: React.FC = () => {
   useEffect(() => {
-    document.title = 'POST | Bun Bun BIKE';
+    document.title = 'Post | Bun Bun BIKE';
   }, []);
 
   return (

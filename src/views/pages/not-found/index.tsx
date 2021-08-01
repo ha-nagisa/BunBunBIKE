@@ -3,7 +3,7 @@ import Header from '../../components/block/header';
 
 const NotFound: React.FC = () => {
   useEffect(() => {
-    document.title = 'Not Found - Bun Bun BIKE';
+    document.title = 'Not Found | Bun Bun BIKE';
   }, []);
   return (
     <div className="bg-gray-background">
