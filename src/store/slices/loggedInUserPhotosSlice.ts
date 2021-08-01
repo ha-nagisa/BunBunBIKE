@@ -23,6 +23,10 @@ interface updateCommentsPhotoActionType {
   comment: string;
 }
 
+interface updateLoggeInUserNameActionType {
+  username: string;
+}
+
 export const loggedInUserPhotosSlice = createSlice({
   name: 'loggedInUserPhotos',
   initialState: {
@@ -88,6 +92,20 @@ export const loggedInUserPhotosSlice = createSlice({
         return photo;
       });
     },
+    updateLoggeInUserName: (state, action: PayloadAction<updateLoggeInUserNameActionType>) => {
+      state.loggedInUserPhotos = state.loggedInUserPhotos.map((photo) => {
+        if (photo.comments.some((com) => com.displayName === photo.username)) {
+          photo.comments = photo.comments.map((com) => {
+            if (com.displayName === photo.username) {
+              com.displayName = action.payload.username;
+            }
+            return com;
+          });
+        }
+        photo.username = action.payload.username;
+        return photo;
+      });
+    },
   },
 });
 
@@ -104,6 +122,7 @@ export const {
   addLoggedInUserPhoto,
   updateLikesPhoto,
   updateCommentsPhoto,
+  updateLoggeInUserName,
 } = loggedInUserPhotosSlice.actions;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const selectLoggedInUserPhotos = (state: RootState) => state.loggedInUserPhotos.loggedInUserPhotos;

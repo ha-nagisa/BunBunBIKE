@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { logoutActiveUser, setActiveUser } from '../store/slices/loggedInUserSlice';
+import { setActiveUser } from '../store/slices/loggedInUserSlice';
 import { getUserByUserId } from '../utils/firebase';
 
 const useUser = (userId: string): void => {
