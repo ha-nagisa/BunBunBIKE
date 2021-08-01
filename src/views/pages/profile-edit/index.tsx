@@ -41,6 +41,10 @@ const ProfileEdit: React.FC = () => {
   const isInvalid = emailAddress === '' || username === '' || bikeImage === '' || maker === '' || carModel === '' || isActioning;
 
   useEffect(() => {
+    document.title = 'Profile Edit | Bun Bun BIKE';
+  }, []);
+
+  useEffect(() => {
     setUsername(activeUser?.username);
     setBikeImage(activeUser?.bikeImageUrl);
     setPreviewBikeImageSrc(activeUser?.bikeImageUrl);

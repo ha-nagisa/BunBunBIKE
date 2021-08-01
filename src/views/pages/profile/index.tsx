@@ -27,6 +27,10 @@ const Profile: React.FC = () => {
   const isPostUser = username === activeUser?.username;
 
   useEffect(() => {
+    document.title = 'Profile | Bun Bun BIKE';
+  }, []);
+
+  useEffect(() => {
     async function checkUserExists() {
       const [userData] = await getUserByUsername(username);
       if (userData && userData?.userId && isPostUser) {

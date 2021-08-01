@@ -19,7 +19,7 @@ const Login: React.FC = () => {
   const isInvalid = password === '' || emailAddress === '';
 
   useEffect(() => {
-    document.title = 'Login - BUnBun BIKE';
+    document.title = 'Login | BUnBun BIKE';
   }, []);
 
   const successResetToast = () =>
