@@ -38,11 +38,19 @@ const ProfileEdit: React.FC = () => {
   const [isActioning, setIsActioning] = useState(false);
   const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false);
 
+  const isLoggedInUser = location.pathname === `/p/${activeUser?.username}/edit`;
   const isInvalid = emailAddress === '' || username === '' || bikeImage === '' || maker === '' || carModel === '' || isActioning;
 
   useEffect(() => {
     document.title = 'Profile Edit | Bun Bun BIKE';
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedInUser) {
+      history.push(ROUTES.NOT_FOUND);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedInUser, location]);
 
   useEffect(() => {
     setUsername(activeUser?.username);
@@ -106,7 +114,6 @@ const ProfileEdit: React.FC = () => {
   const handleEditProfile = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsActioning(true);
-    const isLoggedInUser = location.pathname === `/p/${activeUser?.username}/edit`;
     if (isLoggedInUser) {
       const usernameExists = await doesUsernameExist(username);
       try {
@@ -266,6 +273,7 @@ const ProfileEdit: React.FC = () => {
         }
 
         dispatch(updateLoggeInUserName({ username: username.toLowerCase() }));
+        history.push(`/p/${username}/edit`);
       } catch (error) {
         setErrorText((error as Error).message);
       }
