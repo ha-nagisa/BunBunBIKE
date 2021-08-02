@@ -1,5 +1,5 @@
 <h1 align="center">BunBunBIKE</h1>
-<p align="center"><img src="/Users/hayaminagisa/Desktop/bunbunbike/public/images/loginLogo.png"></p>
+<p align="center"><img src="public/images/loginLogo.png"></p>
 
 ## URL
 
