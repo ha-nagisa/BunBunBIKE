@@ -25,3 +25,22 @@
 - react-hot-toast(トースト表示)
 - react-loading-skeleton(スケルトンローディング)
 - react-slick(スライドショー)
+
+## 実装に詰まったところ
+
+- 全ページフルレスポンシブ対応
+- TypeScript を React で使う際の型定義
+- ファイル構成
+- グローバルなステート管理とローカルなステート管理
+- 非同期処理
+- firestore からのデータ取得
+
+## 改善点
+
+- テストを書く
+- 再レンダリングの抑制(useMemo,React.memo,useCallback 等)
+
+## これから実装したい機能
+
+- 検索機能
+- 投稿の削除機能
